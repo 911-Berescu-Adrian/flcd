@@ -23,10 +23,10 @@ class SymbolTable:
                 return key
         return None
 
-    # TODO position in chaining list
     def find_position(self, key):
         index = self.hash(key)
         if self.table[index] is not None:
             if key in self.table[index]:
-                return index
+                position = self.table[index].index(key)
+                return [index, position]
         return None
