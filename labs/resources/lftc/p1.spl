@@ -1,0 +1,11 @@
+int a = 53;
+int b = 25;
+int c = 19;
+int max = 0;
+if(a < b)
+    max = b;
+else
+    max = a;
+if(max < c)
+    max = c;
+print(max);

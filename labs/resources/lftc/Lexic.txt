@@ -1,0 +1,53 @@
+Alphabet:
+
+a. Upper (A-Z) and lower case letters (a-z) of the English alphabet
+
+b. Underline character '_', special characters;
+
+c. Decimal digits (0-9);
+
+
+1. Lexic 
+
+a. Special symbols, representing:
+
+    - operators + - * / < <= = >= > !=
+
+    - separators [ ] { }  : ; space
+
+    - reserved words: var int string while if else read print
+
+b. Identifiers
+
+    - a sequence of letters and  digits, such that the first character is a letter; the rule is:
+
+        identifier ::= letter | letter{letter | digit}
+
+        letter ::= "a" | "b" | ... | "z" | "A" | "B" | ... | "Z"
+
+        digit ::= "0" | "1" |...| "9"
+
+c. Constants
+
+    1.integer - rule:
+
+        number ::= "0" | ["-" | "+"] non_null_digit {digit}
+
+        digit ::= "0" | non_null_digit
+        
+        non_null_digit ::= "1" | "2" | ... | "9"
+
+
+    2. string
+
+        conststring ::= """string"""
+
+        string := {char}
+
+        char ::= letter | digit | special_char
+
+        special_char ::= "+" | "-" | ":" | "?" | "<" | ">" | ...
+
+    3. bool
+
+        bool ::= "true" | "false"

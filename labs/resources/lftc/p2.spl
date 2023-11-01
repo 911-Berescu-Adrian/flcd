@@ -1,0 +1,15 @@
+int a;
+int b;  
+print("enter your first number: ");
+read(a);
+print("enter your second number: ");
+read(b);
+while(a != b)
+{
+    if(a > b)
+        a = a - b;
+    else
+        b = b - a;
+}
+print("the gcd is: ");
+print(a);

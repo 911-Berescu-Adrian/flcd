@@ -1,5 +1,6 @@
 from lab2.symbol_table import SymbolTable
 from lab3.scanner_exception import ScannerException
+import re
 
 
 class Scanner:
@@ -11,53 +12,83 @@ class Scanner:
         self.index = 0
         self.line = 1
 
-        def scan(self):
-            while self.index < len(self.program):
-                self.next_token()
+    def scan(self):
+        while self.index < len(self.program):
+            self.next_token()
 
-        def next_token(self):
-            self.skip_whitespace()
-            self.skip_comment()
-            if self.index == len(self.program):
-                return
-            if self.treat_string_constant():
-                return
-            if self.treat_int_constant():
-                return
-            if self.treat_from_token_list():
-                return
-            if self.treat_identifier():
-                return
-            raise ScannerException("Lexical error: unknown token", self.current_line)
+    def next_token(self):
+        self.skip_whitespace()
+        if self.index == len(self.program):
+            return
+        if self.treat_from_token_list():
+            return
+        if self.treat_identifier():
+            return
+        if self.treat_string_constant():
+            return
+        if self.treat_int_constant():
+            return
+        raise ScannerException("Lexical error: unknown token", self.line)
 
-        def skip_whitespace(self):
-            while self.index < len(self.program) and self.program[self.index].isspace():
-                if self.program[self.index] == '\n':
-                    self.current_line += 1
-                self.index += 1
+    def skip_whitespace(self):
+        while self.index < len(self.program) and self.program[self.index].isspace():
+            if self.program[self.index] == '\n':
+                self.line += 1
+            self.index += 1
 
-        def skip_comment(self):
-            if self.program.startswith("//", self.index):
-                while self.index < len(self.program) and self.program[self.index] != '\n':
-                    self.index += 1
-                return
+    def treat_string_constant(self):
+        regex_pattern = r'^"[a-zA-Z0-9 ?:*^+=.!]*"'
+        match = re.search(regex_pattern, self.program[self.index:])
 
-        def treat_string_constant(self):
+        if match:
+            string_constant = match.group()
+            self.index += len(match.group())
+            self.symbol_table.insert_string_constant(string_constant)
+            position = self.symbol_table.find_position_string_constant(string_constant)
+            self.pif.append(("const", position))
             return True
 
-        def treat_int_constant(self):
+        if '"' not in self.program[self.index:]:
+            raise ScannerException("Lexical error: quotes missing", self.line)
+
+        raise ScannerException("Lexical error: Invalid characters inside string", self.line)
+
+    def treat_int_constant(self):
+        regex_pattern = r'^([+-]?[1-9][0-9]*|0)'
+        match = re.match(regex_pattern, self.program[self.index:])
+
+        if match:
+            int_constant = match.group()
+            self.index += len(match.group())
+            parsed_int_constant = int(int_constant)
+            self.symbol_table.insert_int_constant(parsed_int_constant)
+            parsed_int_constant = int(int_constant)
+            position = self.symbol_table.find_position_int_constant(parsed_int_constant)
+
+            self.pif.append(("const", position))
             return True
 
-        def treat_from_token_list(self):
+        return False
+
+
+    def treat_from_token_list(self):
+        token = self.program[self.index:].split(" ;\n")[0]
+        return False
+
+    def treat_identifier(self):
+        regex_pattern = re.compile(r'^[a-zA-Z][a-zA-Z0-9]*')
+        match = regex_pattern.search(self.program[self.index:])
+
+        if match:
+            identifier = match.group()
+            self.index += len(identifier)
+
+            if identifier not in self.tokens:
+                self.symbol_table.insert_identifier(identifier)
+
+            position = self.symbol_table.find_position_identifier(identifier)
+            self.pif.append(("id", position))
             return True
 
-        def treat_identifier(self):
-            return True
-
-
-
-
-
-
-
+        return False
 

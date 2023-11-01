@@ -1,0 +1,45 @@
+program ::= stmtlist
+
+stmtlist ::= stmt | stmt ";" stmtlist
+
+stmt ::= simplstmt | structstmt
+
+simplstmt ::= declaration | assignstmt | iostmt
+
+declaration ::= type IDENTIFIER [ "=" expression ]
+
+type  ::= type1 | arraydecl
+
+type1 ::= "bool" | "string" | "int" 
+
+arraydecl ::= type1 "[" nr "]" 
+
+assignstmt ::= IDENTIFIER "=" expression
+
+expression ::= expression ( "+" | "-" )  term | term
+
+term ::= term ( "*" | "/" ) factor | factor 
+
+factor ::= "(" expression ")" | IDENTIFIER
+
+iostmt ::= ( "READ" "(" IDENTIFIER ")" ) | ( "PRINT" "(" IDENTIFIER | string ")" )
+
+conststring ::= """string"""
+
+string := {char}
+
+char ::= letter | digit | special_char
+
+special_char ::= "+" | "-" | ":" | "?" | "<" | ">" | ...
+
+structstmt ::= cmpdstmt | ifstmt | whilestmt
+
+cmpdstmt ::= "{" stmtlist "}"
+
+ifstmt ::= "IF" "(" condition ")" stmt ["ELSE" stmt]
+
+whilestmt ::= "WHILE" "(" condition ")" stmt
+
+condition ::= expression RELATION expression
+
+RELATION ::= "<" | "<=" | "=" | "!=" | ">=" | ">"
