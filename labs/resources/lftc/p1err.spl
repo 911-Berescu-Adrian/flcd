@@ -1,2 +1,2 @@
-int error = 6;
+int error = $6;
 print("hello world);
