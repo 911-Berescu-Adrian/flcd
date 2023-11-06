@@ -18,10 +18,10 @@ class Scanner:
         print("Lexically correct")
 
     def next_token(self):
-        self.skip_whitespace()
+        self.skip_space()
         if self.index == len(self.program):
             return
-        if self.treat_from_token_list():
+        if self.treat_token():
             return
         if self.treat_identifier():
             return
@@ -31,7 +31,7 @@ class Scanner:
             return
         raise ScannerException("Lexical error: unknown token", self.line)
 
-    def skip_whitespace(self):
+    def skip_space(self):
         while self.index < len(self.program) and self.program[self.index].isspace():
             if self.program[self.index] == '\n':
                 self.line += 1
@@ -68,7 +68,7 @@ class Scanner:
 
         return False
 
-    def treat_from_token_list(self):
+    def treat_token(self):
         for token in self.tokens:
             if self.program[self.index:].startswith(token):
                 self.pif.append((token, -1))
