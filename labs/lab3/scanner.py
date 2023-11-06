@@ -15,6 +15,7 @@ class Scanner:
     def scan(self):
         while self.index < len(self.program):
             self.next_token()
+        print("Lexically correct")
 
     def next_token(self):
         self.skip_whitespace()
@@ -48,10 +49,7 @@ class Scanner:
             self.pif.append(("const", position))
             return True
 
-        if '"' not in self.program[self.index:]:
-            raise ScannerException("Lexical error: quotes missing", self.line)
-
-        raise ScannerException("Lexical error: Invalid characters inside string", self.line)
+        return False
 
     def treat_int_constant(self):
         regex_pattern = r'^([+-]?[1-9][0-9]*|0)'
@@ -70,9 +68,12 @@ class Scanner:
 
         return False
 
-
     def treat_from_token_list(self):
-        token = self.program[self.index:].split(" ;\n")[0]
+        for token in self.tokens:
+            if self.program[self.index:].startswith(token):
+                self.pif.append((token, -1))
+                self.index += len(token)
+                return True
         return False
 
     def treat_identifier(self):
