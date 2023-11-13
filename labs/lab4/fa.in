@@ -1,0 +1,8 @@
+states: S0 S1 S2
+alphabet: a b
+initial_state: S0
+final_states: S2
+transitions:
+S0 a S1
+S1 b S2
+S2 a S0

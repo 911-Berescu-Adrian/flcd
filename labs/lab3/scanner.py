@@ -21,14 +21,15 @@ class Scanner:
         self.skip_space()
         if self.index == len(self.program):
             return
+        if self.treat_int_constant():
+            return
         if self.treat_token():
             return
         if self.treat_identifier():
             return
         if self.treat_string_constant():
             return
-        if self.treat_int_constant():
-            return
+
         raise ScannerException("Lexical error: unknown token", self.line)
 
     def skip_space(self):
@@ -69,11 +70,19 @@ class Scanner:
         return False
 
     def treat_token(self):
+        combined_tokens = ['<=', '>=', '!=', '==']
+        for token in combined_tokens:
+            if self.program[self.index:].startswith(token):
+                self.pif.append((token, -1))
+                self.index += len(token)
+                return True
+
         for token in self.tokens:
             if self.program[self.index:].startswith(token):
                 self.pif.append((token, -1))
                 self.index += len(token)
                 return True
+
         return False
 
     def treat_identifier(self):
