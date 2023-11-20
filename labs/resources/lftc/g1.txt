@@ -1,0 +1,4 @@
+N: S
+A: a b
+P:
+S ::= aSb | ab

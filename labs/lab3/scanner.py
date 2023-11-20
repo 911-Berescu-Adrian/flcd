@@ -53,21 +53,34 @@ class Scanner:
         return False
 
     def treat_int_constant(self):
-        regex_pattern = r'^([+-]?[1-9][0-9]*|0)'
-        match = re.match(regex_pattern, self.program[self.index:])
+        regex_pattern = r'^([+-]?[1-9][0-9]*|0(?![0-9]))'
+        while self.index < len(self.program):
+            match = re.match(regex_pattern, self.program[self.index:])
+            if match:
+                int_constant = match.group()
+                self.index += len(match.group())
+                parsed_int_constant = int(int_constant)
+                self.symbol_table.insert_int_constant(parsed_int_constant)
+                parsed_int_constant = int(int_constant)
+                position = self.symbol_table.find_position_int_constant(parsed_int_constant)
+                self.pif.append(("const", position))
 
-        if match:
-            int_constant = match.group()
-            self.index += len(match.group())
-            parsed_int_constant = int(int_constant)
-            self.symbol_table.insert_int_constant(parsed_int_constant)
-            parsed_int_constant = int(int_constant)
-            position = self.symbol_table.find_position_int_constant(parsed_int_constant)
+                while self.index < len(self.program) and self.program[self.index].isspace():
+                    self.index += 1
 
-            self.pif.append(("const", position))
-            return True
+                if self.index < len(self.program) and self.program[self.index] == '-':
+                    self.pif.append(("-", -1))
+                    self.index += 1
+                    continue
 
-        return False
+                if self.index < len(self.program) and self.program[self.index] == '+':
+                    self.pif.append(("+", -1))
+                    self.index += 1
+                    continue
+
+                return True
+
+            return False
 
     def treat_token(self):
         combined_tokens = ['<=', '>=', '!=', '==']
