@@ -14,17 +14,16 @@ class Grammar:
         if not line:
             return
 
-        if line.startswith('N:'):
-            self.nonterminals.update(line[2:].split())
-        elif line.startswith('A:'):
-            self.terminals.update(line[2:].split())
-        elif line.startswith('P:'):
+        if line.startswith('Non-terminals:'):
+            self.nonterminals.update(line[15:].split())
+        elif line.startswith('Terminals:'):
+            self.terminals.update(line[11:].split())
+        elif line.startswith('Production:'):
             self.is_production = True
         elif self.is_production:
             parts = line.split(' ::= ')
             if len(parts) == 2:
                 nonterminal, production = parts
-
                 symbols = production.split(' | ')
                 for symbol in symbols:
                     self.productions.append((nonterminal, symbol))
@@ -37,6 +36,7 @@ class Grammar:
         for nont, symb in self.productions:
             if nont == nonterminal:
                 print(nont + " ::= " + symb)
+
     def print_terminals(self):
         print("Terminals:", self.terminals)
 
@@ -48,6 +48,8 @@ class Grammar:
 
     def is_cfg(self):
         for nonterminal, symbol in self.productions:
+            if nonterminal not in self.nonterminals:
+                return False
             for char in symbol:
                 if char in self.terminals:
                     continue

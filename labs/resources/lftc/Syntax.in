@@ -1,3 +1,6 @@
+Non-terminals: program stmtlist stmt simplstmt structstmt declaration type type1 arraydecl assignstmt expression term factor iostmt conststring string char special_char cmpdstmt ifstmt whilestmt condition RELATION
+Terminals: IDENTIFIER ; = + - * / ( ) READ PRINT { } IF ELSE WHILE < <= = != >= > bool string int [ ] " char
+Production:
 
 program ::= stmtlist
 
@@ -9,7 +12,7 @@ simplstmt ::= declaration | assignstmt | iostmt
 
 declaration ::= type IDENTIFIER [ "=" expression ]
 
-type  ::= type1 | arraydecl
+type ::= type1 | arraydecl
 
 type1 ::= "bool" | "string" | "int" 
 

@@ -1,4 +1,4 @@
-N: S
-A: a b
-P:
-S ::= aSb | ab
+Non-terminals: S B
+Terminals: a b
+Production:
+S ::= a S b | a b
