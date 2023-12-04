@@ -53,6 +53,4 @@ class Grammar:
             for char in symbol:
                 if char in self.terminals:
                     continue
-                elif char in self.nonterminals and char != nonterminal:
-                    return False
         return True

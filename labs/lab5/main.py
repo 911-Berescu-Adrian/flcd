@@ -19,8 +19,10 @@ else:
 parser = LL1Parser(grammar)
 parser.build_parse_table()
 
-input_str = "your_input_string"
-output_steps = parser.parse(input_str)
+print(parser.first("S"))
 
-for step in output_steps:
-    print(step)
+input_str = "S a b a"
+# output_steps = parser.parse(input_str)
+
+# for step in output_steps:
+#     print(step)
