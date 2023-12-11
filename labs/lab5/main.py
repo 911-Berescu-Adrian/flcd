@@ -22,6 +22,11 @@ parser.build_parse_table()
 print(parser.first("S"))
 
 input_str = "S a b a"
+
+# expected {$,b}
+print(parser.follow("S"))
+print(parser.follow("B"))
+
 # output_steps = parser.parse(input_str)
 
 # for step in output_steps:

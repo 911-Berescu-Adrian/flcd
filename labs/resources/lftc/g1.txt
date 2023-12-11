@@ -1,6 +1,6 @@
-Non-terminals: S BAA miau
-Terminals: a b cd
+Non-terminals: S B
+Terminals: a b c
 Production:
-S ::= BAA a | a S b | a b
-BAA ::= miau a S
-miau ::= cd
+S ::= a B c
+B ::= B b | b
+

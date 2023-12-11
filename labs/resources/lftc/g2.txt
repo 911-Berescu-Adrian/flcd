@@ -3,4 +3,4 @@ Terminals: a + * ( )
 Production:
 S ::= B A
 A ::= + B A
-A ::= ep
+A ::= epsilon

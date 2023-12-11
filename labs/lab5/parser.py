@@ -1,5 +1,6 @@
 class LL1Parser:
     def __init__(self, grammar):
+        self.follow_sets = {}
         self.grammar = grammar
         self.parse_table = {}
         self.build_parse_table()
@@ -23,7 +24,6 @@ class LL1Parser:
             #         return production
             return None
 
-    # TODO EPSILON (g2.txt seminar) + FOLLOW
     def first(self, symbol):
         result = set()
 
@@ -33,4 +33,29 @@ class LL1Parser:
             for nont, term in self.grammar.productions:
                 if nont == symbol:
                     result.update(self.first(term.split(" ")[0]))
+        return result
+
+    def follow(self, nonterminal):
+        if nonterminal in self.follow_sets:
+            return self.follow_sets[nonterminal]
+
+        result = set()
+
+        if nonterminal == next(iter(self.grammar.nonterminals), None):
+            result.add('$')
+
+
+        for nt, productions in self.grammar.productions:
+            for production in productions:
+                symbols = production.split(" ")
+                if nonterminal in symbols:
+                    index = symbols.index(nonterminal)
+                    if index < len(symbols) - 1:
+                        result.update(self.first(' '.join(symbols[index + 1:])))
+                        if 'epsilon' in self.first(' '.join(symbols[index + 1:])):
+                            result.update(self.follow(nt))
+                    elif index == len(symbols) - 1:
+                        result.update(self.follow(nt))
+
+        self.follow_sets[nonterminal] = result
         return result
