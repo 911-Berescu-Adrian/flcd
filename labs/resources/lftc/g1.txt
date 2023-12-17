@@ -1,6 +1,7 @@
-Non-terminals: S B
+Start: S
+Non-terminals: S B C
 Terminals: a b c
 Production:
-S ::= a B c
-B ::= B b | b
-
+S ::= a B
+B ::= b c | b
+C ::= epsilon

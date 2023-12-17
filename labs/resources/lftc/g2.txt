@@ -1,6 +1,10 @@
+Start: S
 Non-terminals: S A B C D
 Terminals: a + * ( )
 Production:
 S ::= B A
 A ::= + B A
 A ::= epsilon
+B ::= D C
+C ::= * D C | epsilon
+D ::= ( S ) | a
