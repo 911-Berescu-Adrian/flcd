@@ -72,9 +72,6 @@ class LL1Parser:
         return None
 
     def follow(self, nonterminal):
-        if nonterminal in self.follow_sets:
-            return self.follow_sets[nonterminal]
-
         result = set()
 
         if nonterminal == self.grammar.start_symbol:
@@ -97,11 +94,28 @@ class LL1Parser:
                     elif next is None:
                         result.update(self.follow_sets[nont])
 
-        self.follow_sets[nonterminal] = result
+        self.follow_sets[nonterminal].update(result)
         return result
 
     def parse_sequence(self, sequence):
         rules_used = ""
         input_stack = sequence
-        working_stack = "S$"
-        print(sequence)
+        working_stack = "S $"
+        while input_stack != working_stack != "$":
+            first_symbol = input_stack.split(" ")[0]
+            first_working_symbol = working_stack.split(" ")[0]
+            if first_working_symbol in self.grammar.nonterminals:
+                working_stack = working_stack.split(" ", 1)[1]
+                rule, number = self.parse_table[(first_working_symbol, first_symbol)]
+                rules_used += str(number)
+                working_stack = rule + " " + working_stack
+                print(self.parse_table[(first_working_symbol, first_symbol)])
+            else:
+                if first_working_symbol == first_symbol:
+                    working_stack = working_stack.split(" ", 1)[1]
+                    input_stack = input_stack.split(" ", 1)[1]
+                else:
+                    working_stack = working_stack.split(" ", 1)[1]
+        print(input_stack, working_stack, rules_used)
+
+
