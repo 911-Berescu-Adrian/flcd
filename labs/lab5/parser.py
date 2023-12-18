@@ -6,6 +6,7 @@ class LL1Parser:
         for nont in self.grammar.nonterminals:
             self.follow_sets[nont] = set()
         self.build_parse_table()
+
     def build_parse_table(self):
         for t in self.grammar.nonterminals:
             self.follow(t)
@@ -116,6 +117,6 @@ class LL1Parser:
                     input_stack = input_stack.split(" ", 1)[1]
                 else:
                     working_stack = working_stack.split(" ", 1)[1]
-        print(input_stack, working_stack, rules_used)
+        print(rules_used)
 
 
