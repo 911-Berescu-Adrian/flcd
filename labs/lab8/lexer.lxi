@@ -29,7 +29,7 @@ IDENTIFIER {LETTER}({LETTER}|{DIGIT})*
 
 {STRING_CONSTANT} {printf("%s - string constant\n", yytext);}
 
-"["|"]"|";"|"("|")"|"{"|"}"|"," {printf("%s - separator\n", yytext);}
+";"|"("|")"|"{"|"}"|"," {printf("%s - separator\n", yytext);}
 
 [ \t]+ {}
 
