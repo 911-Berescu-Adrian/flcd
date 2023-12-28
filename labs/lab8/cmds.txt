@@ -1,0 +1,6 @@
+cd /c/Users/adi/Desktop/flcd-lab2/labs/lab8
+flex lexer.lxi
+
+gcc lex.yy.c -o scanner
+
+./scanner ../resources/lftc/p2.spl
