@@ -1,8 +1,3 @@
-Start: program
-Non-terminals: program stmtlist stmt simplstmt structstmt declaration type type1 arraydecl assignstmt expression term factor iostmt conststring string char special_char cmpdstmt ifstmt whilestmt condition RELATION
-Terminals: IDENTIFIER ; = + - * / ( ) READ PRINT { } IF ELSE WHILE < <= = != >= > bool string int [ ] " char
-Production:
-
 program ::= stmtlist
 
 stmtlist ::= stmt | stmt ";" stmtlist
@@ -17,7 +12,7 @@ type ::= type1 | arraydecl
 
 type1 ::= "bool" | "string" | "int" 
 
-arraydecl ::= type1 "[" nr "]" 
+arraydecl ::= type1 "[" INT_CONSTANT "]"
 
 assignstmt ::= IDENTIFIER "=" expression
 
@@ -27,15 +22,7 @@ term ::= term ( "*" | "/" ) factor | factor
 
 factor ::= "(" expression ")" | IDENTIFIER
 
-iostmt ::= ( "READ" "(" IDENTIFIER ")" ) | ( "PRINT" "(" IDENTIFIER | string ")" )
-
-conststring ::= """string"""
-
-string := {char}
-
-char ::= letter | digit | special_char
-
-special_char ::= "+" | "-" | ":" | "?" | "<" | ">" | ...
+iostmt ::= ( "READ" "(" IDENTIFIER ")" ) | ( "PRINT" "(" IDENTIFIER | STRING_CONSTANT ")" )
 
 structstmt ::= cmpdstmt | ifstmt | whilestmt
 
@@ -47,4 +34,4 @@ whilestmt ::= "WHILE" "(" condition ")" stmt
 
 condition ::= expression RELATION expression
 
-RELATION ::= "<" | "<=" | "=" | "!=" | ">=" | ">"
+RELATION ::= "<" | "<=" | "==" | "!=" | ">=" | ">"

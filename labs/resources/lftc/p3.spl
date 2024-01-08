@@ -1,7 +1,7 @@
 print("n = ");
 int number; 
 read(number);
-int i = 123;
+int i = 0;
 int sum = 0;
 int aux;
 while(i <= number)
@@ -10,6 +10,6 @@ while(i <= number)
     read(aux);
     sum = sum + aux;
     i = i + 1;
-}
+};
 print("the sum is: ");
 print(sum);

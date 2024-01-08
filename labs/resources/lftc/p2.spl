@@ -1,5 +1,5 @@
 int a;
-int b;  
+int b;
 print("enter your first number: ");
 read(a);
 print("enter your second number: ");
@@ -8,8 +8,8 @@ while(a != b)
 {
     if(a > b)
         a = a - b;
-    else
+    if(a <= b)
         b = b - a;
-}
+};
 print("the gcd is: ");
 print(a);
